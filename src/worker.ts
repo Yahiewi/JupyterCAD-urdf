@@ -5,7 +5,7 @@ import {
   JCadWorkerSupportedFormat,
   WorkerAction
 } from '@jupytercad/schema';
-import { showErrorMessage } from '@jupyterlab/apputils';
+import { showDialog, Dialog, showErrorMessage } from '@jupyterlab/apputils';
 import { Contents } from '@jupyterlab/services';
 import { PromiseDelegate } from '@lumino/coreutils';
 import { v4 as uuid } from 'uuid';
@@ -178,6 +178,12 @@ export class URDFWorker implements IJCadWorker {
           content: file.content
         });
       }
+
+      showDialog({
+        title: 'Export Successful',
+        body: `URDF robot exported successfully to ${exportDirPath}`,
+        buttons: [Dialog.okButton()]
+      });
     } catch (error) {
       console.error(
         'ERROR: [worker.ts] Failed during file save operation:',

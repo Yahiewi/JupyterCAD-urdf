@@ -1,4 +1,4 @@
-import { FormDialog, newName } from '@jupytercad/base';
+import { FormDialog } from '@jupytercad/base';
 import {
   IDict,
   IJCadObject,
@@ -12,6 +12,18 @@ import { ITranslator } from '@jupyterlab/translation';
 import { v4 as uuid } from 'uuid';
 import formSchema from './schema.json';
 import { exportIcon } from './icon';
+
+function newName(name: string, model: IJupyterCadModel): string {
+  const objectNames = model.getAllObject().map(obj => obj.name);
+  if (!objectNames.includes(name)) {
+    return name;
+  }
+  let index = 1;
+  while (objectNames.includes(`${name} (${index})`)) {
+    index++;
+  }
+  return `${name} (${index})`;
+}
 
 export namespace CommandIDs {
   export const exportUrdf = 'jupytercad:urdf:export';
